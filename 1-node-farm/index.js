@@ -55,7 +55,24 @@ const http = require('http');
 // Import the built-in 'url' module to handle URLs
 const url = require('url');
 
+const replaceTemplate = (temp, product) => {
+    let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName);
+    output = output.replace(/{%IMAGE%}/g, product.image);
+    output = output.replace(/{%PRICE%}/g, product.price);
+    output = output.replace(/{%NUTRIENTS%}/g, product.nutrients);
+    output = output.replace(/{%QUANTITY%}/g, product.quantity);
+    output = output.replace(/{%DESCRIPTION%}/g, product.description);
+    output = output.replace(/{%ID%}/g, product.id);
+
+    if(!product.organic)
+    output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
+    return output;
+}
+
 // Read the file synchronously (blocking way)
+const tempOverview = fs.readFileSync(`${__dirname}/templates/template-overview.html`, 'utf-8');
+const tempCard = fs.readFileSync(`${__dirname}/templates/template-card.html`, 'utf-8');
+const tempProduct = fs.readFileSync(`${__dirname}/templates/template-product.html`, 'utf-8');
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 
 // Convert JSON text to a JavaScript object
@@ -73,15 +90,23 @@ const server = http.createServer((req, res) => {
     // Store the request URL path in a variable (e.g. /overview or /product)
     const pathName = req.url;
 
+    // OVERVIEW PAGE
     // Check which path the user requested and send the correct response
     if (pathName === '/' || pathName ==='/overview') {
-        // If user visits /overview → send this response
-        res.end('This is the OVERVIEW');
+        res.writeHead(200, { 'Content-Type': 'text/html' });
 
+        
+        const cardsHtml = dataObj.map(el => replaceTemplate(tempCard, el)).join('');
+        const output = tempOverview.replace('{%PRODUCTS_CARDS%}', cardsHtml)
+
+        res.end(output);
+
+    // PRODUCT PAGE
     } else if (pathName === '/product') {
         // If user visits /product → send this response
         res.end('This is the PRODUCT');
     
+    // API
     // If the user visits '/api':
     // 1. Tell the browser "this is JSON data"
     // 2. Send the JSON content to the user
@@ -89,6 +114,7 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(data); // or res.end(JSON.stringify(dataObj));
 
+    // NOT FOUND
     } else {
         // For any other path → send "Page not found" with 404 status code
         res.writeHead(404, {
