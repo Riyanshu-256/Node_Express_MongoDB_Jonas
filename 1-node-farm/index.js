@@ -124,8 +124,9 @@ const server = http.createServer((req, res) => {
     }
 });
 
-// Start the server and listen on port 8000
-// This callback runs once when the server starts successfully
-server.listen(8000, () => {
-    console.log('Listening to requests on port 8000');
+// Start the server and listen on a configurable port
+// Prefer PORT from environment, fallback to 8000
+const PORT = process.env.PORT || 8000;
+server.listen(PORT, () => {
+    console.log(`Listening to requests on port ${PORT}`);
 });
