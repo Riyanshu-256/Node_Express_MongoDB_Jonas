@@ -8,6 +8,7 @@ const http = require('http');
 // Import the built-in 'url' module to handle URLs
 const url = require('url');
 
+// Import the replaceTemplate function from the './modules/replaceTemplate' file
 const replaceTemplate = require('./modules/replaceTemplate');
 
 /*
