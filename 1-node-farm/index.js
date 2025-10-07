@@ -70,8 +70,11 @@ const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 // Convert JSON text to a JavaScript object
 const dataObj = JSON.parse(data);
 
+// Create an array of URL-friendly slugs from the product names in dataObj
+// `map` goes through each product, and `slugify` converts the name to lowercase and replaces spaces/special characters
+// Example: "Fresh Cheese" becomes "fresh-cheese"
+// The resulting slugs are stored in the `slugs` array and printed with console.log
 const slugs = dataObj.map(el => slugify(el.productName, {lower : true}));
-
 console.log(slugs);
 
 // Create an HTTP server
