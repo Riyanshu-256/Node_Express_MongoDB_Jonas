@@ -1,8 +1,8 @@
 // // Import the built-in 'fs' (File System) module
 // // It allows us to read and write files
 // const fs = require('fs');
-
-const http = require('http');  
+;  
+const url = require('url'); 
 
 /*
 //--------------------------------FILES------------------------------//
@@ -51,10 +51,29 @@ console.log('Will read file!');
 */
 
 //------------------------------------SERVER---------------------------//
+const http = require('http');  
+const url = require('url'); 
+
 const server = http.createServer((req, res) => {
-    res.end('Hello from the server!');
+    console.log(req.url);
+
+    const pathName = req.url;
+
+    // Check the request URL and send response accordingly
+    if (pathName === '/overview') {
+        res.end('This is the OVERVIEW');
+    } else if (pathName === '/product') {
+        res.end('This is the PRODUCT');
+    } else {
+        // Send 404 status code for any other route
+        res.writeHead(404, {
+            'Content-Type': 'text/html'
+        });
+        res.end('<h1>Page not found!</h1>');
+    }
 });
 
+// Listen on port 8000
 server.listen(8000, () => {
     console.log('Listening to requests on port 8000');
 });
