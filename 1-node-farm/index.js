@@ -1,8 +1,6 @@
 // // Import the built-in 'fs' (File System) module
 // // It allows us to read and write files
 // const fs = require('fs');
-;  
-const url = require('url'); 
 
 /*
 //--------------------------------FILES------------------------------//
@@ -51,21 +49,35 @@ console.log('Will read file!');
 */
 
 //------------------------------------SERVER---------------------------//
-const http = require('http');  
-const url = require('url'); 
+// Import the built-in 'http' module to create a web server
+const http = require('http');
+const path = require('path');
 
+// Import the built-in 'url' module to handle URLs
+const url = require('url');
+
+// Create an HTTP server
+// 'req' = request (what the client/browser asks for)
+// 'res' = response (what the server sends back)
 const server = http.createServer((req, res) => {
+
+    // Log the requested URL path to the console
     console.log(req.url);
 
+    // Store the request URL path in a variable (e.g. /overview or /product)
     const pathName = req.url;
 
-    // Check the request URL and send response accordingly
-    if (pathName === '/overview') {
+    // Check which path the user requested and send the correct response
+    if (pathName === '/' || pathName ==='/overview') {
+        // If user visits /overview → send this response
         res.end('This is the OVERVIEW');
+
     } else if (pathName === '/product') {
+        // If user visits /product → send this response
         res.end('This is the PRODUCT');
+
     } else {
-        // Send 404 status code for any other route
+        // For any other path → send "Page not found" with 404 status code
         res.writeHead(404, {
             'Content-Type': 'text/html'
         });
@@ -73,7 +85,8 @@ const server = http.createServer((req, res) => {
     }
 });
 
-// Listen on port 8000
+// Start the server and listen on port 8000
+// This callback runs once when the server starts successfully
 server.listen(8000, () => {
     console.log('Listening to requests on port 8000');
 });
