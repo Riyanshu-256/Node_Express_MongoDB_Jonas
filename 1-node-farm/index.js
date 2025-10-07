@@ -2,6 +2,14 @@
 // // It allows us to read and write files
 const fs = require('fs');
 
+// Import the built-in 'http' module to create a web server
+const http = require('http');
+
+// Import the built-in 'url' module to handle URLs
+const url = require('url');
+
+const replaceTemplate = require('./modules/replaceTemplate');
+
 /*
 //--------------------------------FILES------------------------------//
 
@@ -49,11 +57,6 @@ console.log('Will read file!');
 */
 
 //------------------------------------SERVER---------------------------//
-// Import the built-in 'http' module to create a web server
-const http = require('http');
-
-// Import the built-in 'url' module to handle URLs
-const url = require('url');
 
 // Read the file synchronously (blocking way)
 const tempOverview = fs.readFileSync(`${__dirname}/templates/template-overview.html`, 'utf-8');
