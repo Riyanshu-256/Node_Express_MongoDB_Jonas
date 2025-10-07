@@ -55,10 +55,12 @@ const http = require('http');
 // Import the built-in 'url' module to handle URLs
 const url = require('url');
 
+// Read the file synchronously (blocking way)
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 
-const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8', (err, data) => {
-    const dataObj = JSON.parse(data);
-});
+// Convert JSON text to a JavaScript object
+const dataObj = JSON.parse(data);
+
 
 // Create an HTTP server
 // 'req' = request (what the client/browser asks for)
@@ -80,11 +82,12 @@ const server = http.createServer((req, res) => {
         // If user visits /product → send this response
         res.end('This is the PRODUCT');
     
-    // If user visits /api → send this response
-    } else if (pathName === '/api')  {
-            res.writeHead(200, {
-            'Content-Type': 'application/json'});
-            res.end(data);
+    // If the user visits '/api':
+    // 1. Tell the browser "this is JSON data"
+    // 2. Send the JSON content to the user
+    } else if (pathName === '/api') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(data); // or res.end(JSON.stringify(dataObj));
 
     } else {
         // For any other path → send "Page not found" with 404 status code
