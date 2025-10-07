@@ -1,5 +1,5 @@
-// // Import the built-in 'fs' (File System) module
-// // It allows us to read and write files
+// Import the built-in 'fs' (File System) module
+// It allows us to read and write files
 const fs = require('fs');
 
 // Import the built-in 'http' module to create a web server
