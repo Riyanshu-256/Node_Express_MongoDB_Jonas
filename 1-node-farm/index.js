@@ -84,33 +84,43 @@ const dataObj = JSON.parse(data);
 // 'res' = response (what the server sends back)
 const server = http.createServer((req, res) => {
 
-    // Log the requested URL path to the console
-    console.log(req.url);
-
-    // Store the request URL path in a variable (e.g. /overview or /product)
-    const pathName = req.url;
+    const { query, pathname } = url.parse(req.url, true);
 
     // OVERVIEW PAGE
     // Check which path the user requested and send the correct response
-    if (pathName === '/' || pathName ==='/overview') {
+    if (pathname === '/' || pathname ==='/overview') {
         res.writeHead(200, { 'Content-Type': 'text/html' });
-
         
+        // Create HTML for all product cards by replacing placeholders in the template
         const cardsHtml = dataObj.map(el => replaceTemplate(tempCard, el)).join('');
-        const output = tempOverview.replace('{%PRODUCTS_CARDS%}', cardsHtml)
 
+        // Insert all product cards into the overview template
+        const output = tempOverview.replace('{%PRODUCTS_CARDS%}', cardsHtml);
+
+        // Send the final HTML page as a response to the browser
         res.end(output);
 
+
     // PRODUCT PAGE
-    } else if (pathName === '/product') {
+    } else if (pathname === '/product') {
+        
+        // Set the HTTP response header to tell the browser we're sending HTML content
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+
+        // Get the specific product data based on the 'id' from the query string
+        const product = dataObj[query.id];
+
+        // Replace placeholders in the product template with the actual product data
+        const output = replaceTemplate(tempProduct, product);
+
         // If user visits /product → send this response
-        res.end('This is the PRODUCT');
+        res.end(output);
     
     // API
     // If the user visits '/api':
     // 1. Tell the browser "this is JSON data"
     // 2. Send the JSON content to the user
-    } else if (pathName === '/api') {
+    } else if (pathname === '/api') {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(data); // or res.end(JSON.stringify(dataObj));
 
