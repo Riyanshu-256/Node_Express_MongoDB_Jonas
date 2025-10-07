@@ -1,6 +1,11 @@
-// Import the built-in 'fs' (File System) module
-// It allows us to read and write files
-const fs = require('fs');
+// // Import the built-in 'fs' (File System) module
+// // It allows us to read and write files
+// const fs = require('fs');
+
+const http = require('http');  
+
+/*
+//--------------------------------FILES------------------------------//
 
 //---------------Blocking, Synchronous way--------------------//
 // Read the content of 'input.txt' file as text
@@ -43,3 +48,13 @@ fs.readFile('./txt/start.txt', 'utf-8', (err, data1) => {
 
 // This line runs immediately, before any of the readFile callbacks
 console.log('Will read file!');
+*/
+
+//------------------------------------SERVER---------------------------//
+const server = http.createServer((req, res) => {
+    res.end('Hello from the server!');
+});
+
+server.listen(8000, () => {
+    console.log('Listening to requests on port 8000');
+});
