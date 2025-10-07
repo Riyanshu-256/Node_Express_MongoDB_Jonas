@@ -8,6 +8,8 @@ const http = require('http');
 // Import the built-in 'url' module to handle URLs
 const url = require('url');
 
+const slugify = require('slugify');
+
 // Import the replaceTemplate function from the './modules/replaceTemplate' file
 const replaceTemplate = require('./modules/replaceTemplate');
 
@@ -68,6 +70,9 @@ const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 // Convert JSON text to a JavaScript object
 const dataObj = JSON.parse(data);
 
+const slugs = dataObj.map(el => slugify(el.productName, {lower : true}));
+
+console.log(slugs);
 
 // Create an HTTP server
 // 'req' = request (what the client/browser asks for)
