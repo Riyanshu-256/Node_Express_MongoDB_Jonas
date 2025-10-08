@@ -29,5 +29,5 @@ server.on("request", (req, res) => {
 });
 
 server.listen(8000, () => {
-    console.log("Listening...........")
+    console.log("Listening.....")
 })
