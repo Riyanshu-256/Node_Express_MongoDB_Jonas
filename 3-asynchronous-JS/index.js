@@ -7,12 +7,9 @@ fs.readFile(`${__dirname}/dog.txt`, (err, data) => {
   // Log the breed read from the file
   console.log(`Breed: ${data}`);
 
-  // Make a GET request to the Dog CEO API to fetch a random image for the breed
+  // Make a http GET request to the Dog CEO API to fetch a random image for the breed
   superagent
-    .get(`https://dog.ceo/api/breed/${data}/images/random`)
-    .end((err, res) => {
-      // Handle any errors from the HTTP request
-      if (err) return console.log(err.message);
+    .get(`https://dog.ceo/api/breed/${data}/images/random`).then(res => {
 
       // Log the URL of the random dog image
       console.log(res.body.message);
@@ -23,5 +20,8 @@ fs.readFile(`${__dirname}/dog.txt`, (err, data) => {
         // Confirm that the image URL was successfully saved
         console.log('Random dog image saved to file!');
       });
-    });
+    })
+    .catch(err => {
+        console.log(err.message);
+    })
 });
