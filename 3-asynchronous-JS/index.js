@@ -7,7 +7,7 @@ fs.readFile(`${__dirname}/dog.txt`, (err, data) => {
   // Log the breed read from the file
   console.log(`Breed: ${data}`);
 
-  // Make a http GET request to the Dog CEO API to fetch a random image for the breed
+  // Make a http GET request to the Dog CEO API to fetch a random image for the breed and .then() → used to handle successful case
   superagent
     .get(`https://dog.ceo/api/breed/${data}/images/random`).then(res => {
 
@@ -21,6 +21,7 @@ fs.readFile(`${__dirname}/dog.txt`, (err, data) => {
         console.log('Random dog image saved to file!');
       });
     })
+    // used to handle errors that occur in a Promise chain or .catch() → used to handle rejected case
     .catch(err => {
         console.log(err.message);
     })
