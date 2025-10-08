@@ -23,7 +23,7 @@ module.exports = (temp, product) => {
      // For replacing the organic part we first need to check
      // If organic then change -->> Otherwise leave it likewise
      if (!product.organic) {
-          output = output.replace(/{%NOT_ORGANIC%}/g, 'not-Organic');
+          output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
      }
      // now returning the Replaced Html files
      return output;
