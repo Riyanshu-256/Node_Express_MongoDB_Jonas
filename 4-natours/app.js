@@ -13,6 +13,7 @@ app.use(express.json());
 // fs.readFileSync() reads the file synchronously, and JSON.parse() converts it into a JavaScript object
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
+
 //------------------------Handle GET request---------------------------//
 // Define a GET route for '/api/v1/tours' to get all tours
 // When a client sends a GET request to this route, the server responds with all tours data
@@ -25,6 +26,7 @@ app.get('/api/v1/tours', (req, res) => {
         }
     });
 });
+
 
 //-------------------Responding to URLs parameters---------------------//
 // Define a GET route for '/api/v1/tours' to get all tours
@@ -52,6 +54,7 @@ app.get('/api/v1/tours/:id', (req, res) => {
         }
     });
 });
+
 
 //------------------------Handle POST request--------------------------//
 // Define a POST route for '/api/v1/tours' to create a new tour
@@ -82,6 +85,10 @@ app.post('/api/v1/tours', (req, res) => {
         }
     );
 });
+
+
+//---------------------Handle Patch request----------------------------//
+
 
 
 //------------------------Start the server-----------------------------//
