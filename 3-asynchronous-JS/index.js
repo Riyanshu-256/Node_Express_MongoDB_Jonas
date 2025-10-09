@@ -46,11 +46,32 @@ const getDogPic = async () => {
   } catch (err) {
     // Catch and log any errors that occur during the process
     console.log(err);
+    throw(err);
   }
+  return '2: READY 🐶';
 };
 
+(async() => {
+  try{
+    console.log('1: Will get dog pics!');
+    const x = await getDogPic();
+    console.log(x);
+    console.log('3: Done getting dog pics!');
+  } catch(err){
+    console.log('ERROR 💥');
+  }
+})();
+
+/*
+console.log('1: Will get dog pics!');
 // Call the async function to execute the process
-getDogPic();
+getDogPic().then(x => {
+  console.log(x);  
+  console.log('3: Done getting dog pics!');
+}).catch(err => {
+  console.log('ERROR 💥');
+});
+*/
 
 /*
 // Reading the content of 'dog.txt' asynchronously
