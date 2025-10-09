@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 // Import the Express package
 const express = require('express');
 
@@ -5,15 +7,28 @@ const express = require('express');
 // This app object will act as our server
 const app = express();
 
-// Define a GET route for the root URL ('/')
-// When someone accesses the root, the server responds with a JSON object
-app.get('/', (req, res) => {
-    res
-      .status(202) // Set HTTP status code to 202 (Accepted)
-      .json({      // Send a JSON response
-          mesaage: 'Hello from the server side!', // Custom message
-          app: 'Natours'   // App name
-      });
+// // Define a GET route for the root URL ('/')
+// // When someone accesses the root, the server responds with a JSON object
+// app.get('/', (req, res) => {
+//     res
+//       .status(202) // Set HTTP status code to 202 (Accepted)
+//       .json({      // Send a JSON response
+//           mesaage: 'Hello from the server side!', // Custom message
+//           app: 'Natours'   // App name
+//       });
+// });
+
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
+
+
+app.get('/api/v1/tours', (req, res) => {
+    res.status(200).json({
+        status: 'success',
+        results: tours.length,
+        data: {
+            tours
+        }
+    })
 });
 
 // Define a POST route for the root URL ('/')
@@ -24,7 +39,6 @@ app.post('/', (req, res) => {
 
 // Define the port on which the server will listen
 const port = 3000;
-
 // Start the server and listen on the specified port
 // Once the server starts, log a message to the console
 app.listen(port, () => {
