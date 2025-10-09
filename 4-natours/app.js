@@ -22,7 +22,7 @@ app.get('/api/v1/tours', (req, res) => {
         status: 'success',    // Indicates that the request was successful
         results: tours.length, // Number of tours in the data
         data: {
-            tours             // Actual tour data sent to the client
+            tours   // Actual tour data sent to the client
         }
     });
 });
@@ -50,7 +50,7 @@ app.get('/api/v1/tours/:id', (req, res) => {
     res.status(200).json({   // Send a JSON response with status code 200 (OK)
         status: 'success',    // Indicates that the request was successful
         data: {
-            tour            // Actual tour data sent to the client
+            tour   // Actual tour data sent to the client
         }
     });
 });
@@ -88,7 +88,27 @@ app.post('/api/v1/tours', (req, res) => {
 
 
 //---------------------Handle Patch request----------------------------//
+// Define a PATCH route for '/api/v1/tours/:id' to update a specific tour
+app.patch('/api/v1/tours/:id', (req, res) => {
 
+    // Check if the provided ID (from URL) is greater than the number of tours
+    // If so, it is considered invalid
+    if (req.params.id * 1 > tours.length) {
+        // Send a 404 Not Found response with a failure message
+        return res.status(404).json({
+            status: 'fail',           // Status of the response
+            message: 'Invalid ID'     // Message explaining the error
+        });
+    }
+
+    // If the ID is valid, send a success response
+    res.status(200).json({
+        status: 'success',    // Indicates request was successful
+        data: {
+            tour: '<Updated tour here...>' // Placeholder for the updated tour data
+        }
+    });
+});
 
 
 //------------------------Start the server-----------------------------//
