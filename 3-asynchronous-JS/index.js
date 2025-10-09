@@ -25,8 +25,34 @@ const writeFilePro = (file, data) => {
       resolve('success');
     })
   })
-}
+};
 
+// getDogPic: an asynchronous function that reads a dog breed from a file,
+// fetches a random image for that breed from the Dog CEO API, and saves the image URL to a file
+const getDogPic = async () => {
+  try {
+    // Read the dog breed from 'dog.txt' asynchronously
+    const data = await readFilePro(`${__dirname}/dog.txt`);
+    console.log(`Breed: ${data}`);
+
+    // Make an HTTP GET request to fetch a random image for the breed
+    const res = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+    console.log(res.body.message);
+
+    // Save the dog image URL to 'dog-img.txt' asynchronously
+    await writeFilePro('dog-img.txt', res.body.message);
+    console.log('Random dog image saved to file!');
+    
+  } catch (err) {
+    // Catch and log any errors that occur during the process
+    console.log(err);
+  }
+};
+
+// Call the async function to execute the process
+getDogPic();
+
+/*
 // Reading the content of 'dog.txt' asynchronously
 readFilePro(`${__dirname}/dog.txt`).then(data => {
     // Log the breed read from the file
@@ -40,7 +66,7 @@ return  superagent
       // Log the URL of the random dog image
       console.log(res.body.message);
 
-      return writeFilePro('dog-img.txt', res.body.message)
+      return writeFilePro('dog-img.txt', res.body.message);
 
       // // Save the dog image URL to 'dog-img.txt' asynchronously
       // fs.writeFile('dog-img.txt', res.body.message, err => {
@@ -58,4 +84,5 @@ return  superagent
     // used to handle errors that occur in a Promise chain or .catch() → used to handle rejected case
     .catch(err => {
         console.log(err);
-    })
+    });
+*/
