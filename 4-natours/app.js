@@ -18,18 +18,23 @@ const app = express();
 //       });
 // });
 
+// Read and parse the JSON file containing all tours data
+// __dirname gives the current directory path
+// fs.readFileSync() reads the file synchronously, and JSON.parse() converts it into a JavaScript object
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
-
+// Define a GET route for '/api/v1/tours'
+// When a client sends a GET request to this route, the server responds with all tours data
 app.get('/api/v1/tours', (req, res) => {
-    res.status(200).json({
-        status: 'success',
-        results: tours.length,
+    res.status(200).json({   // Send a JSON response with status code 200 (OK)
+        status: 'success',    // Indicates that the request was successful
+        results: tours.length, // Number of tours in the data
         data: {
-            tours
+            tours             // Actual tour data sent to the client
         }
-    })
+    });
 });
+
 
 // Define a POST route for the root URL ('/')
 // When a POST request is made, the server sends a simple text response
