@@ -13,6 +13,7 @@ app.use(express.json());
 // fs.readFileSync() reads the file synchronously, and JSON.parse() converts it into a JavaScript object
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
+//------------------------Handle GET request---------------------------//
 // Define a GET route for '/api/v1/tours' to get all tours
 // When a client sends a GET request to this route, the server responds with all tours data
 app.get('/api/v1/tours', (req, res) => {
@@ -25,6 +26,35 @@ app.get('/api/v1/tours', (req, res) => {
     });
 });
 
+//-------------------Responding to URLs parameters---------------------//
+// Define a GET route for '/api/v1/tours' to get all tours
+// When a client sends a GET request to this route, the server responds specific tour
+app.get('/api/v1/tours/:id', (req, res) => {
+    console.log(req.params);   // req.params contains dynamic URL values, e.g., { id: '3' } for '/api/v1/tours/3'
+
+    // Convert the 'id' URL parameter from a string to a number using '* 1'
+    // Find the tour in the 'tours' array whose id matches the given id
+    const id = req.params.id * 1;
+    const tour = tours.find(el => el.id === id);
+
+    // if (id > tours.length) {
+    if(!tour){
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    }
+
+
+    res.status(200).json({   // Send a JSON response with status code 200 (OK)
+        status: 'success',    // Indicates that the request was successful
+        data: {
+            tour            // Actual tour data sent to the client
+        }
+    });
+});
+
+//------------------------Handle POST request--------------------------//
 // Define a POST route for '/api/v1/tours' to create a new tour
 // When a client sends data to this route, it can be accessed via req.body
 // The new tour is added to the tours array and saved to the JSON file
