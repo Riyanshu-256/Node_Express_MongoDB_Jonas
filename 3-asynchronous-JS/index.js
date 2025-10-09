@@ -36,13 +36,18 @@ const getDogPic = async () => {
     console.log(`Breed: ${data}`);
 
     // Make an HTTP GET request to fetch a random image for the breed
-    const res = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
-    console.log(res.body.message);
+    const res1Pro = superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+    const res2Pro = superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+    const res3Pro = superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+
+    const all = await Promise.all([res1Pro, res2Pro, res3Pro]);
+    const imgs = all.map(el => el.body.message);
+    console.log(imgs);
+    
 
     // Save the dog image URL to 'dog-img.txt' asynchronously
-    await writeFilePro('dog-img.txt', res.body.message);
+    await writeFilePro('dog-img.txt', imgs.join('\n'));
     console.log('Random dog image saved to file!');
-    
   } catch (err) {
     // Catch and log any errors that occur during the process
     console.log(err);
@@ -51,16 +56,27 @@ const getDogPic = async () => {
   return '2: READY 🐶';
 };
 
-(async() => {
-  try{
+// This is an Immediately Invoked Async Function Expression (IIAFE)
+// It allows us to use async/await at the top level without creating a named function
+(async () => {
+  try {
+    // Log the start of the process
     console.log('1: Will get dog pics!');
+
+    // Call the async function getDogPic() and wait for it to complete
     const x = await getDogPic();
+
+    // Log the returned value (if any) from getDogPic()
     console.log(x);
+
+    // Log that the process is done
     console.log('3: Done getting dog pics!');
-  } catch(err){
+  } catch (err) {
+    // Catch and log any errors that happen during the entire async operation
     console.log('ERROR 💥');
   }
 })();
+
 
 /*
 console.log('1: Will get dog pics!');
