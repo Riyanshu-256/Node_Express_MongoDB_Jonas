@@ -111,6 +111,28 @@ app.patch('/api/v1/tours/:id', (req, res) => {
 });
 
 
+//---------------------Handle Delete request---------------------------//
+// Define a DELETE route for '/api/v1/tours/:id' to delete a specific tour
+app.delete('/api/v1/tours/:id', (req, res) => {
+
+    // Convert the ID from URL parameter to a number and check if it is valid
+    // If ID is greater than the number of tours, it is invalid
+    if (req.params.id * 1 > tours.length) {
+        // Send a 404 Not Found response with a failure message
+        return res.status(404).json({
+            status: 'fail',  // Status of the response
+            message: 'Invalid ID'   // Message explaining why it failed
+        });
+    }
+
+    // If ID is valid, send a 204 No Content response indicating successful deletion
+    res.status(204).json({
+        status: 'success',   // Indicates the request was successful
+        data: null   // No content is sent in the response body
+    });
+});
+
+
 //------------------------Start the server-----------------------------//
 // Define the port on which the server will listen
 const port = 3000;
@@ -119,3 +141,6 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`App running on ${port}....`);
 });
+
+
+//////////////////////////////  COMPLETED //////////////////////////////
