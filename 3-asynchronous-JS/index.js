@@ -3,6 +3,11 @@ const fs = require('fs');
 const { resolve } = require('path');
 const superagent = require('superagent');
 
+// readFilePro: a function that returns a Promise to read a file asynchronously
+// Takes a 'file' path as input
+// Uses fs.readFile to read the file
+// If an error occurs (file not found, etc.), the Promise is rejected with an error message
+// If reading succeeds, the Promise is resolved with the file data
 const readFilePro = file => {
   return new Promise((resolve, reject) => {
     fs.readFile(file, (err, data) => {
@@ -44,7 +49,8 @@ return  superagent
       //   console.log('Random dog image saved to file!');
       // });
     })
-    
+  
+    // .then() → used to handle successful case
     .then(() => {
       console.log('Random dog image saved to file!');
     })
