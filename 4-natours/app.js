@@ -1,5 +1,8 @@
-const fs = require('fs');           // File system module to read/write files
-const express = require('express'); // Import Express package
+// File system module to read/write files
+const fs = require('fs');
+
+// Import Express package
+const express = require('express');
 
 // Create an Express application instance
 // This app object will act as our server
@@ -143,4 +146,4 @@ app.listen(port, () => {
 });
 
 
-//////////////////////////////  COMPLETED //////////////////////////////
+//////////////////////////////  COMPLETED ///////////////////////////////
