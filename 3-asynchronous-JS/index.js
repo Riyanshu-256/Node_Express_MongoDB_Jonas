@@ -27,34 +27,36 @@ const writeFilePro = (file, data) => {
   })
 };
 
-// getDogPic: an asynchronous function that reads a dog breed from a file,
-// fetches a random image for that breed from the Dog CEO API, and saves the image URL to a file
-const getDogPic = async () => {
+const getDogPic = async () => { // Define an asynchronous function called getDogPic
   try {
-    // Read the dog breed from 'dog.txt' asynchronously
-    const data = await readFilePro(`${__dirname}/dog.txt`);
-    console.log(`Breed: ${data}`);
+    const data = await readFilePro(`${__dirname}/dog.txt`); // Read the dog breed from 'dog.txt' asynchronously
+    console.log(`Breed: ${data}`); // Log the breed name to the console
 
-    // Make an HTTP GET request to fetch a random image for the breed
+    // Make three HTTP GET requests in parallel to fetch random images of the breed
     const res1Pro = superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
     const res2Pro = superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
     const res3Pro = superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
 
-    const all = await Promise.all([res1Pro, res2Pro, res3Pro]);
-    const imgs = all.map(el => el.body.message);
-    console.log(imgs);
-    
+    const all = await Promise.all([res1Pro, res2Pro, res3Pro]); 
+    // Wait for all three requests to complete simultaneously using Promise.all
 
-    // Save the dog image URL to 'dog-img.txt' asynchronously
-    await writeFilePro('dog-img.txt', imgs.join('\n'));
-    console.log('Random dog image saved to file!');
+    const imgs = all.map(el => el.body.message); 
+    // Extract the image URLs from each response and store them in an array
+
+    console.log(imgs); // Log the array of image URLs to the console
+
+    await writeFilePro('dog-img.txt', imgs.join('\n')); 
+    // Save all image URLs to 'dog-img.txt', each on a new line
+
+    console.log('Random dog image saved to file!'); 
+    // Log a success message after saving the file
   } catch (err) {
-    // Catch and log any errors that occur during the process
-    console.log(err);
-    throw(err);
+    console.log(err); // Log any errors that occur during the process
+    throw(err); // Rethrow the error for further handling
   }
-  return '2: READY 🐶';
+  return '2: READY 🐶'; // Return a string indicating that the function has finished
 };
+
 
 // This is an Immediately Invoked Async Function Expression (IIAFE)
 // It allows us to use async/await at the top level without creating a named function
