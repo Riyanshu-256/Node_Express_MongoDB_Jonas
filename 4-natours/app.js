@@ -45,7 +45,6 @@ app.get('/api/v1/tours/:id', (req, res) => {
         });
     }
 
-
     res.status(200).json({   // Send a JSON response with status code 200 (OK)
         status: 'success',    // Indicates that the request was successful
         data: {
@@ -84,9 +83,10 @@ app.post('/api/v1/tours', (req, res) => {
     );
 });
 
+
+//------------------------Start the server-----------------------------//
 // Define the port on which the server will listen
 const port = 3000;
-
 // Start the server and listen on the specified port
 // Once the server starts, log a message to the console
 app.listen(port, () => {
