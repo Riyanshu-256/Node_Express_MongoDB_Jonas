@@ -16,7 +16,9 @@ app.use(express.json());
 // fs.readFileSync() reads the file synchronously, and JSON.parse() converts it into a JavaScript object
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/*
 //------------------------Handle GET request---------------------------//
 // Define a GET route for '/api/v1/tours' to get all tours
 // When a client sends a GET request to this route, the server responds with all tours data
@@ -134,6 +136,133 @@ app.delete('/api/v1/tours/:id', (req, res) => {
         data: null   // No content is sent in the response body
     });
 });
+*/
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//----------- Refractoring Our Routes ⭢ Restructring your code to make it cleaner, more organized and easier to maintain ------------------//
+
+// Function to get all tours
+const getAllTours = (req, res) => {
+    // Send a JSON response with status code 200 (OK)
+    res.status(200).json({
+        status: 'success',        // Response status message
+        results: tours.length,    // Total number of tours
+        data: {
+            tours                 // Send all tour data
+        }
+    });
+}
+
+// Function to get a single tour by ID
+const getTour = (req, res) => {
+    console.log(req.params);       // Log URL parameters (e.g., { id: '2' })
+    const id = req.params.id * 1;  // Convert id from string to number
+    const tour = tours.find(el => el.id === id); // Find the tour with matching ID
+
+    // If no tour found, return a 404 error
+    if(!tour){
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    }
+
+    // If found, send the tour data
+    res.status(200).json({
+        status: 'success',
+        data: {
+            tour
+        }
+    });
+}
+
+// Function to create a new tour
+const createTour = (req, res) => {
+    // Create a new ID by adding 1 to the last tour’s ID
+    const newId = tours[tours.length - 1].id + 1;
+
+    // Merge new ID with data received from client (req.body)
+    const newTour = Object.assign({ id: newId }, req.body);
+
+    // Add the new tour to the tours array
+    tours.push(newTour);
+
+    // Save the updated tours data to the JSON file
+    fs.writeFile(
+        `${__dirname}/dev-data/data/tours-simple.json`,
+        JSON.stringify(tours),
+        err => {
+            // Send response with status 201 (Created)
+            res.status(201).json({
+                status: 'success',
+                data: {
+                    tour: newTour
+                }
+            });
+        }
+    );
+}
+
+// Function to update an existing tour
+const updateTour = (req, res) => {
+    // If ID is greater than the number of tours, return an error
+    if (req.params.id * 1 > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    }
+
+    // Otherwise, send a success response (placeholder data)
+    res.status(200).json({
+        status: 'success',
+        data: {
+            tour: '<Updated tour here...>'
+        }
+    });
+}
+
+// Function to delete a tour
+const deleteTour = (req, res) => {
+    // If ID is invalid, send error response
+    if (req.params.id * 1 > tours.length) {
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    }
+
+    // Send response with status 204 (No Content)
+    res.status(204).json({
+        status: 'success',
+        data: null
+    });
+}
+
+/*
+// ROUTES
+// Handling routes individually
+app.get('/api/v1/tours', getAllTours);
+app.get('/api/v1/tours/:id', getTour);
+app.post('/api/v1/tours', createTour);
+app.patch('/api/v1/tours/:id', updateTour);
+app.delete('/api/v1/tours/:id', deleteTour);
+*/
+
+// Better way to handling routes as compaired to above
+// Grouping routes using Express route chaining
+app
+    .route('/api/v1/tours')
+    .get(getAllTours)
+    .post(createTour);
+
+app
+    .route('/api/v1/tours/:id')
+    .get(getTour)
+    .patch(updateTour)
+    .delete(deleteTour);
 
 
 //------------------------Start the server-----------------------------//
