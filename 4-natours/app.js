@@ -4,9 +4,16 @@ const fs = require('fs');
 // Import Express package
 const express = require('express');
 
-// Create an Express application instance
+// Load 'morgan' to log info about each request in the console
+const morgan = require('morgan');
+
+// Create an Express application instance/copy
 // This app object will act as our server
 const app = express();
+
+// Use the 'morgan' middleware to log details about each request in the console
+// The 'dev' format shows method, URL, status, response time, and more in a concise way
+app.use(morgan('dev'));
 
 // Middleware: Parses or convert incoming JSON data into a usable JavaScript object in req.body
 app.use(express.json());
@@ -264,7 +271,7 @@ const deleteTour = (req, res) => {
 }
 
 /*
-// ROUTES
+//-------------------------- ROUTES -----------------------------------//
 // Handling routes individually
 app.get('/api/v1/tours', getAllTours);
 app.get('/api/v1/tours/:id', getTour);
