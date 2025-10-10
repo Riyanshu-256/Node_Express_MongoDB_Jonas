@@ -8,8 +8,28 @@ const express = require('express');
 // This app object will act as our server
 const app = express();
 
-// Middleware: Parses incoming JSON data into a usable JavaScript object in req.body
+// Middleware: Parses or convert incoming JSON data into a usable JavaScript object in req.body
 app.use(express.json());
+
+
+//------------------Creating our own middleware------------------------//
+
+// Apply to each and every single request and define the middleware before all the route handler
+app.use((req, res, next) => {
+    console.log('Hello from the middleware 👋');
+    next();
+});
+
+// This middleware runs for every request that comes to the server
+app.use((req, res, next) => {
+
+    // Add the current time to the request so we know when it was made
+    req.requestTime = new Date().toISOString();
+
+    // Move on to the next middleware or route
+    next();
+});
+
 
 // Read and parse the JSON file containing all tours data
 // __dirname gives the current directory path
@@ -145,9 +165,11 @@ app.delete('/api/v1/tours/:id', (req, res) => {
 
 // Function to get all tours
 const getAllTours = (req, res) => {
+    console.log(req.requestTime);
     // Send a JSON response with status code 200 (OK)
     res.status(200).json({
         status: 'success',        // Response status message
+        requestedAt: req.requestTime,
         results: tours.length,    // Total number of tours
         data: {
             tours                 // Send all tour data
