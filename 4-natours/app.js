@@ -12,6 +12,13 @@ const userRouter = require('./routes/userRoutes');
 // This app object will act as our server
 const app = express();
 
+console.log(process.env.NODE_ENV);
+if(process.env.NODE_ENV == 'development'){
+    // Use the 'morgan' middleware to log details about each request in the console
+    // The 'dev' format shows method, URL, status, response time, and more in a concise way
+    app.use(morgan('dev'));
+}
+
 // Use the 'morgan' middleware to log details about each request in the console
 // The 'dev' format shows method, URL, status, response time, and more in a concise way
 app.use(morgan('dev'));
