@@ -272,7 +272,7 @@ const deleteTour = (req, res) => {
 
 
 // Function to handle request for getting all users
-const getAllUser = (req, res) => {
+const getAllUsers = (req, res) => {
 
     // Send a response with status 500 (means something is wrong)
     res.status(500).json({
@@ -320,29 +320,38 @@ app.patch('/api/v1/tours/:id', updateTour);
 app.delete('/api/v1/tours/:id', deleteTour);
 */
 
+
+// Create new router for tour and users and save it in this
+const tourRouter = express.Router();
+const userRouter = express.Router();
+
 // Better way to handling routes as compaired to above
 // Grouping routes using Express route chaining
-app
-    .route('/api/v1/tours')
+tourRouter
+    .route('/')
     .get(getAllTours)
     .post(createTour);
 
-app
-    .route('/api/v1/tours/:id')
+tourRouter
+    .route('/:id')
     .get(getTour)
     .patch(updateTour)
     .delete(deleteTour);
 
-app
-    .route('/api/v1/users')
-    .get(getAllUser)
+userRouter
+    .route('/')
+    .get(getAllUsers)
     .post(createUser);
 
-app
-    .route('/api/v1/useers/:id')
+userRouter
+    .route('/:id')
     .get(getUser)
     .patch(updateUser)
     .delete(deleteUser);
+
+// Connect this tourRouter and userRouter to the applications through middleware
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 
 
 //------------------------Start the server-----------------------------//
