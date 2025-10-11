@@ -19,6 +19,8 @@ app.use(morgan('dev'));
 // Middleware: Parses or convert incoming JSON data into a usable JavaScript object in req.body
 app.use(express.json());
 
+app.use(express.static(`${__dirname}/public`));
+
 
 //------------------Creating our own middleware------------------------//
 
