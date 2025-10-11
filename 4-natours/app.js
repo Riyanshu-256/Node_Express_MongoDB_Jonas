@@ -1,11 +1,12 @@
-// File system module to read/write files
-const fs = require('fs');
-
 // Import Express package
 const express = require('express');
 
 // Load 'morgan' to log info about each request in the console
 const morgan = require('morgan');
+
+// to access the file of tourRoutes and userRoutes
+const tourRouter = require('./routes/tourRoutes');
+const userRouter = require('./routes/userRoutes');
 
 // Create an Express application instance/copy
 // This app object will act as our server
@@ -37,11 +38,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
-// Read and parse the JSON file containing all tours data
-// __dirname gives the current directory path
-// fs.readFileSync() reads the file synchronously, and JSON.parse() converts it into a JavaScript object
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -167,7 +163,7 @@ app.delete('/api/v1/tours/:id', (req, res) => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+/*
 //----------- Refractoring Our Routes ⭢ Restructring your code to make it cleaner, more organized and easier to maintain ------------------//
 
 // Function to get all tours
@@ -310,18 +306,18 @@ const deleteUser = (req, res) => {
 };
 
 
-/*
+
 //-------------------------- ROUTES -----------------------------------//
 // Handling routes individually
-app.get('/api/v1/tours', getAllTours);
-app.get('/api/v1/tours/:id', getTour);
-app.post('/api/v1/tours', createTour);
-app.patch('/api/v1/tours/:id', updateTour);
-app.delete('/api/v1/tours/:id', deleteTour);
-*/
+// app.get('/api/v1/tours', getAllTours);
+// app.get('/api/v1/tours/:id', getTour);
+// app.post('/api/v1/tours', createTour);
+// app.patch('/api/v1/tours/:id', updateTour);
+// app.delete('/api/v1/tours/:id', deleteTour);
 
 
-// Create new router for tour and users and save it in this
+
+// Create new router for tour and  and save it in this
 const tourRouter = express.Router();
 const userRouter = express.Router();
 
@@ -348,12 +344,12 @@ userRouter
     .get(getUser)
     .patch(updateUser)
     .delete(deleteUser);
-
+*/
 // Connect this tourRouter and userRouter to the applications through middleware
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
-
+/*
 //------------------------Start the server-----------------------------//
 // Define the port on which the server will listen
 const port = 3000;
@@ -362,6 +358,9 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`App running on ${port}....`);
 });
+*/
+
+module.exports = app;
 
 
 //////////////////////////////  COMPLETED ///////////////////////////////
