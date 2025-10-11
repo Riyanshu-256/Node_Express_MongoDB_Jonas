@@ -35,7 +35,9 @@ const getAllTours = (req, res) => {
     res.json({   // Send the response as JSON
         status: 'success',
         results: tours.length, // Total number of tours
-        data: { tours },   // Send all tour data
+        data: {
+             tours 
+            },   // Send all tour data
     });
 }
 
@@ -51,7 +53,10 @@ const createTour = (req, res) => {
         res.status(201) // HTTP status code 201 (Created)
         res.json({   // Send the new tour in response
             status: 'Success',
-            data: { newTour },
+            data: 
+            { 
+                newTour 
+            },
         });
     });
 }
@@ -63,7 +68,9 @@ const getTour = (req, res) => {
     res.status(200) // HTTP status 200 (OK)
     res.json({   // Send the tour data in JSON
         status: 'Success',
-        data: { tour },
+        data: {
+             tour 
+            },
     });
 }
 
