@@ -5,10 +5,7 @@ const tourController = require('./../controllers/tourController');
 // Router
 const router = express.Router();
 
-router.param('id', (req, res, next, val) => {
-    console.log(`Tour id is: ${val}`);
-    next();
-})
+router.param('id', tourController.checkID);
 
 // router.use(exports.addRequestTime); // Add requestTime to all routes
 

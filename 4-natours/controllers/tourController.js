@@ -32,10 +32,10 @@ const checkBody = (req, res, next) => {
 // Handler to get all tours
 const getAllTours = (req, res) => {
     res.status(200) // Set HTTP status code to 200 (OK)
-    res.json({      // Send the response as JSON
+    res.json({   // Send the response as JSON
         status: 'success',
         results: tours.length, // Total number of tours
-        data: { tours },       // Send all tour data
+        data: { tours },   // Send all tour data
     });
 }
 
@@ -49,7 +49,7 @@ const createTour = (req, res) => {
     // Write updated tours array to JSON file
     fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), 'utf-8', (err) => {
         res.status(201) // HTTP status code 201 (Created)
-        res.json({      // Send the new tour in response
+        res.json({   // Send the new tour in response
             status: 'Success',
             data: { newTour },
         });
@@ -61,7 +61,7 @@ const getTour = (req, res) => {
     const id = req.params.id * 1 // Convert string ID from URL to number
     const tour = tours.find((element) => element.id === id) // Find tour by ID
     res.status(200) // HTTP status 200 (OK)
-    res.json({      // Send the tour data in JSON
+    res.json({   // Send the tour data in JSON
         status: 'Success',
         data: { tour },
     });
@@ -70,7 +70,7 @@ const getTour = (req, res) => {
 // Handler to update a tour (currently placeholder)
 const updateTour = (req, res) => {
     res.status(200) // HTTP status 200 (OK)
-    res.json({      // Send placeholder response
+    res.json({   // Send placeholder response
         status: 'Success',
         data: 'Updated tour here...!'
     });
@@ -79,7 +79,7 @@ const updateTour = (req, res) => {
 // Handler to delete a tour (currently placeholder)
 const deleteTour = (req, res) => {
     res.status(200) // HTTP status 200 (OK)
-    res.json({      // Send response with null data
+    res.json({   // Send response with null data
         status: 'Success',
         data: null,
     });  
